@@ -68,6 +68,7 @@ class DateInput extends Component {
     const { onChangeValue } = this.props;
     if (typeof onChangeValue === "function") {
       onChangeValue();
+      this.setState({ inputValue: null });
     }
   };
   onInputTextChange = (inputValue) => {
@@ -169,9 +170,9 @@ class DateInput extends Component {
               justifyContent: "center",
               alignItems: "center",
             }}
-            onPress={value ? this.clearValue : this.onFocus}
+            onPress={value || inputValue ? this.clearValue : this.onFocus}
           >
-            {value ? crossIconComponent : calendarIconComponent}
+            {value || inputValue ? crossIconComponent : calendarIconComponent}
           </TouchableOpacity>
         </View>
         <Modal visible={isActive} transparent>
