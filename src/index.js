@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   Modal,
+  Dimensions,
 } from "@hybrid/core-components";
 import Calendar from "./Calendar";
 import { CalendarIcon, CrossIcon } from "./Images";
@@ -68,8 +69,31 @@ class DateInput extends Component {
       onChangeValue();
     }
   };
+  onInputTextChange = (inputValue)=>{
+    this.setState({inputValue})
+  }
+  onInputFocus = (e) => {
+    this.setState({ inputFocus: true });
+  };
+  onInputBlur = (e) => {
+    const { onChangeValue } = this.props;
+    const { inputValue } = this.state;
+    let newValue = inputValue;
+    newValue = newValue && new Date(newValue);
+    if (newValue instanceof Date && !isNaN(newValue)) {
+      if (typeof onChangeValue === "function") {
+        onChangeValue(newValue);
+      }
+    }
+
+    this.setState({
+      inputFocus: false,
+      inputValue: null,
+    });
+  };
   render() {
-    const { isActive } = this.state;
+    const windowWidth = Dimensions.get("window").width;
+    const { isActive, inputFocus, inputValue } = this.state;
     const {
       inputStyle,
       crossImage,
@@ -96,14 +120,20 @@ class DateInput extends Component {
     return (
       <View>
         <View
+          onLayout={(e) => {
+            console.log("@@@@@@@@@@@@@@@@!>>>>>>", e);
+          }}
           style={{
             backgroundColor: "grey",
             flexDirection: "row",
-            ...(isActive ? activeStyle : style),
+            ...(isActive || inputFocus ? activeStyle : style),
           }}
         >
           <View style={{ flex: 1, paddingLeft: 5 }}>
             <TextInput
+              onFocus={this.onInputFocus}
+              onBlur={this.onInputBlur}
+              onChangeText={this.onInputTextChange}
               style={{
                 height: 36,
                 padding: 0,
@@ -111,18 +141,22 @@ class DateInput extends Component {
                 fontSize: 18,
                 fontWeight: "bold",
               }}
-              value={valueToShow}
+              value={inputValue || valueToShow}
             />
-            <TouchableOpacity
-              onPress={this.onFocus}
-              style={{
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                position: "absolute",
-              }}
-            />
+            {/* {windowWidth > 650 ? (
+              <TouchableOpacity
+                onPress={this.onFocus}
+                style={{
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  position: "absolute",
+                }}
+              />
+            ) : (
+              void 0
+            )} */}
           </View>
           <TouchableOpacity
             style={{
@@ -143,9 +177,10 @@ class DateInput extends Component {
             activeOpacity={0.7}
             style={{
               flex: 1,
-              backgroundColor: "rgba(0,0,0,0.3)",
+              backgroundColor: "rgba(0,0,0,0.6)",
               justifyContent: "center",
               alignItems: "center",
+              cursor: "default",
             }}
           >
             <Calendar
