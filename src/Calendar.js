@@ -198,6 +198,7 @@ class Calendar extends Component {
                 ...(item === -1 && {
                   backgroundColor: "transparent",
                 }),
+                userSelect: 'none'
               }}
             >
               {item != -1 ? item : ""}
@@ -243,6 +244,7 @@ class Calendar extends Component {
             style={{
               ...rowStyle?.textStyle,
               ...(item == year && rowStyle?.selectedTextStyle),
+              userSelect: 'none'
             }}
           >
             {item || ""}
@@ -291,6 +293,7 @@ class Calendar extends Component {
             style={{
               ...rowStyle?.textStyle,
               ...(this.months[item] == month && rowStyle?.selectedTextStyle),
+              userSelect: 'none'
             }}
           >
             {monthName}
@@ -340,14 +343,14 @@ class Calendar extends Component {
     if (showMonth) {
       headerComponent = (
         <View style={{ ...headerStyle?.container }}>
-          <Text style={{ ...headerStyle?.textStyle }}>Select Month</Text>
+          <Text style={{ ...headerStyle?.textStyle, userSelect: 'none' }}>Select Month</Text>
         </View>
       );
     } else if (showYear) {
       headerComponent = (
         <View style={{ flex: 1 }}>
           <View style={{ ...headerStyle?.container }}>
-            <Text style={{ ...headerStyle?.textStyle }}>Select Year</Text>
+            <Text style={{ ...headerStyle?.textStyle, userSelect: 'none' }}>Select Year</Text>
           </View>
         </View>
       );
@@ -360,7 +363,7 @@ class Calendar extends Component {
             }}
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <Text>{`${this.months[activeDate.getMonth()]}`}</Text>
+            <Text style={{userSelect: 'none'}}>{`${this.months[activeDate.getMonth()]}`}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -368,7 +371,7 @@ class Calendar extends Component {
             }}
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <Text>{`${activeDate.getFullYear()}`}</Text>
+            <Text style={{userSelect: 'none'}}>{`${activeDate.getFullYear()}`}</Text>
           </TouchableOpacity>
         </View>
       );
