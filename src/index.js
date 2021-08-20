@@ -1,0 +1,3 @@
+const DateInput = () => <></>;
+
+export { DateInput };
