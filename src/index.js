@@ -42,7 +42,8 @@ class DateInput extends Component {
   state = { isActive: false };
   onFocus = (e) => {
     const { onFocus } = this.props;
-    this.setState({ isActive: true }, () => {
+    this.setState({ isActive: true, inputValue: null }, () => {
+      this.dateInputRef?.blur && this.dateInputRef.blur();
       if (typeof onFocus === "function") {
         onFocus(e);
       }
@@ -69,9 +70,9 @@ class DateInput extends Component {
       onChangeValue();
     }
   };
-  onInputTextChange = (inputValue)=>{
-    this.setState({inputValue})
-  }
+  onInputTextChange = (inputValue) => {
+    this.setState({ inputValue });
+  };
   onInputFocus = (e) => {
     this.setState({ inputFocus: true });
   };
@@ -90,6 +91,9 @@ class DateInput extends Component {
       inputFocus: false,
       inputValue: null,
     });
+  };
+  getInputRef = (ref) => {
+    this.dateInputRef = ref;
   };
   render() {
     const windowWidth = Dimensions.get("window").width;
@@ -131,6 +135,7 @@ class DateInput extends Component {
         >
           <View style={{ flex: 1, paddingLeft: 5 }}>
             <TextInput
+              getRef={this.getInputRef}
               onFocus={this.onInputFocus}
               onBlur={this.onInputBlur}
               onChangeText={this.onInputTextChange}
