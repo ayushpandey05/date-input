@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, Image } from "@hybrid/core-components";
+import { Text, View, TouchableOpacity, Image } from "@react-easy-ui/core-components";
 import { LeftIcon, RightIcon } from "./Images";
 
 const defaultCalendarStyle = {
